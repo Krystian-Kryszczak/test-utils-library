@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  JWT_GENERATOR_SIGNATURE_SECRET: ${{ secrets.JWT_GENERATOR_SIGNATURE_SECRET }}
+
 permissions:
   contents: read
 jobs:
