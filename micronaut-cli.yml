@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.multhink
+testFramework: kotest
+sourceLanguage: kotlin
+buildTool: gradle
+features: [app-name, cassandra, crac, github-workflow-ci, graalvm, gradle, http-client, jackson-databind, kafka, kapt, kotest, kotlin, kotlin-application, logback, micronaut-aot, micronaut-build, micronaut-http-validation, netty-server, readme, rxjava3, rxjava3-http-client, security-annotations, security-jwt, serialization-jackson, shade, testcontainers, yaml, yaml-build]
