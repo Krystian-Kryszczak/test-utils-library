@@ -12,6 +12,8 @@ import io.kotest.core.listeners.AfterProjectListener
 import io.kotest.core.listeners.BeforeProjectListener
 import org.testcontainers.containers.CassandraContainer
 import org.testcontainers.utility.DockerImageName
+import java.io.File
+import java.util.zip.ZipInputStream
 
 object CassandraTestContainerKotestExtension : Extension, BeforeProjectListener, AfterProjectListener {
     val cassandra = CassandraContainer(DockerImageName.parse("cassandra:5.0"))
@@ -24,7 +26,25 @@ object CassandraTestContainerKotestExtension : Extension, BeforeProjectListener,
         .connect()
 
     override suspend fun beforeProject() {
-        val hostPath = "${System.getProperty("user.dir")}/src/main/resources/cassandra.yaml"
+        var hostPath = "${System.getProperty("user.dir")}/src/main/resources/cassandra.yaml"
+        if (!File(hostPath).isFile) {
+            this::javaClass::class.java.protectionDomain.codeSource.let { codeSource ->
+                ZipInputStream(codeSource.location.openStream()).use { zip ->
+                    while (true) {
+                        val entry = zip.getNextEntry() ?: break
+                        if (entry.name == "cassandra.yaml") {
+                            File.createTempFile("cassandra", ".yaml").let { tempFile ->
+                                tempFile.outputStream().use { outputStream ->
+                                    zip.transferTo(outputStream)
+                                }
+                                hostPath = tempFile.absolutePath
+                            }
+                            break
+                        }
+                    }
+                }
+            }
+        }
         val containerPath = "/etc/cassandra/cassandra.yaml"
         cassandra.withFileSystemBind(hostPath, containerPath)
         cassandra.start()

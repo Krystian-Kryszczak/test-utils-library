@@ -10,7 +10,7 @@ plugins {
     id("io.micronaut.aot") version "4.0.4"
 }
 
-version = "0.1.0-alpha"
+version = "0.1.1-alpha"
 group = "com.multhink"
 
 repositories {
@@ -46,7 +46,8 @@ dependencies {
     aotPlugins("io.micronaut.security:micronaut-security-aot")
 
     // libs
-    implementation(fileTree(dir: 'libs', include: ['*.jar']))
+    implementation(fileTree(dir: 'libs/main', include: ['*.jar']))
+    testImplementation(fileTree(dir: 'libs/test', include: ['*.jar']))
 }
 
 java {

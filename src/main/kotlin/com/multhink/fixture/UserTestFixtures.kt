@@ -5,8 +5,8 @@
 package com.multhink.fixture
 
 import com.datastax.oss.driver.api.core.uuid.Uuids
-import krystian.kryszczak.commons.extenstion.datetime.toDateInDays
-import krystian.kryszczak.commons.model.being.user.User
+import com.multhink.commons.extenstion.datetime.toDateInDays
+import com.multhink.commons.model.being.user.User
 import java.time.LocalDate
 
 private val johnSmithUserId = Uuids.startOf(System.currentTimeMillis() + 100)
