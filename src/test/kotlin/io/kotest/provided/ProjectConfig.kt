@@ -1,6 +1,6 @@
 package io.kotest.provided
 
-import com.multhink.kotest.extension.cassandra.CassandraTestContainerKotestExtension
+import com.multhink.test.kotest.extension.cassandra.CassandraTestContainerKotestExtension
 import io.kotest.core.config.AbstractProjectConfig
 import io.micronaut.test.extensions.kotest5.MicronautKotest5Extension
 
