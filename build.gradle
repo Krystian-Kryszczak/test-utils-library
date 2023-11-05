@@ -10,7 +10,7 @@ plugins {
     id("io.micronaut.aot") version "4.0.4"
 }
 
-version = "0.1.3-alpha"
+version = "0.1.4-alpha"
 group = "com.multhink"
 
 repositories {

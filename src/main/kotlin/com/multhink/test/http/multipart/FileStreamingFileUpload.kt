@@ -48,11 +48,7 @@ class FileStreamingFileUpload(private val file: File): StreamingFileUpload {
     override fun transferTo(destination: File) = Flowable.fromCallable { file.copyTo(destination, true).exists() }
 
     override fun transferTo(outputStream: OutputStream) = Flowable.fromCallable {
-        file.inputStream().use { inputStream ->
-            outputStream.use { outputStream ->
-                inputStream.transferTo(outputStream) != 0L
-            }
-        }
+        file.inputStream().transferTo(outputStream) != 0L
     }
 
     override fun delete() = Flowable.just(file.deleteRecursively())

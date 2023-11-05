@@ -69,7 +69,7 @@ class FileStreamingFileUploadTest: FreeSpec({
         "destination file should be successful" {
             // given
             val file = File("src/test/resources/media/image/java.png")
-            val tempFile = File.createTempFile("${file.nameWithoutExtension}-", ".${file.extension}")
+            val tempFile = File.createTempFile("${file.nameWithoutExtension}-", ".${file.extension}").also(File::deleteOnExit)
 
             // when
             FileStreamingFileUpload(file).transferTo(tempFile)
@@ -85,7 +85,7 @@ class FileStreamingFileUploadTest: FreeSpec({
         "output stream should be successful" {
             // given
             val file = File("src/test/resources/media/image/java.png")
-            val tempFile = File.createTempFile("${file.nameWithoutExtension}-", ".${file.extension}")
+            val tempFile = File.createTempFile("${file.nameWithoutExtension}-", ".${file.extension}").also(File::deleteOnExit)
 
             // when
             FileStreamingFileUpload(file).transferTo(tempFile.outputStream())
@@ -103,7 +103,7 @@ class FileStreamingFileUploadTest: FreeSpec({
         "should be delete" {
             // given
             File("src/test/resources/media/image/java.png").let { file ->
-                File.createTempFile("${file.nameWithoutExtension}-", ".${file.extension}").let {
+                File.createTempFile("${file.nameWithoutExtension}-", ".${file.extension}").also(File::deleteOnExit).let {
                     file.copyTo(it, true)
                     FileStreamingFileUpload(it)
                 }

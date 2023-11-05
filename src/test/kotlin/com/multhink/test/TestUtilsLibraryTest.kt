@@ -9,7 +9,7 @@ import io.micronaut.test.extensions.kotest5.annotation.MicronautTest
 import io.kotest.core.spec.style.StringSpec
 
 @MicronautTest
-class TestUtilsLibraryTest(private val application: EmbeddedApplication<*>): StringSpec({
+class TestUtilsLibraryTest(application: EmbeddedApplication<*>): StringSpec({
 
     "test the server is running" {
         assert(application.isRunning)
