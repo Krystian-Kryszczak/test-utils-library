@@ -14,6 +14,7 @@ import io.micronaut.websocket.WebSocketClient
 import io.micronaut.websocket.WebSocketSession
 import io.micronaut.websocket.annotation.OnMessage
 import io.micronaut.websocket.annotation.ServerWebSocket
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import org.reactivestreams.Publisher
 import org.testcontainers.shaded.org.awaitility.Awaitility.await
@@ -34,7 +35,7 @@ class TestingWebSocketClient(@Client("/ws/test") webSocketClient: WebSocketClien
             val messageToSend = "Hello world!"
 
             // when
-            client.send(messageToSend)
+            Flowable.fromPublisher(client.send(messageToSend))
                 .test()
                 .await()
 
@@ -42,6 +43,9 @@ class TestingWebSocketClient(@Client("/ws/test") webSocketClient: WebSocketClien
             .assertValue(messageToSend)
             await().until { client.latestMessage != null }
             client.latestMessage shouldBe messageToSend
+
+            // clean
+            client.close()
         }
 
         "should successfully send broadcast message to the ws server and then receive response" {
@@ -50,7 +54,7 @@ class TestingWebSocketClient(@Client("/ws/test") webSocketClient: WebSocketClien
             val messageToSend = "Hello world!"
 
             // when
-            client.broadcast(messageToSend)
+            Flowable.fromPublisher(client.broadcast(messageToSend))
                 .test()
                 .await()
 
@@ -58,6 +62,9 @@ class TestingWebSocketClient(@Client("/ws/test") webSocketClient: WebSocketClien
             .assertValue(messageToSend)
             await().until { client.latestMessage != null }
             client.latestMessage shouldBe messageToSend
+
+            // clean
+            client.close()
         }
     }
 })
